@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Arquivo contendo os links
-LINKS_FILE="reads-link.txt"
+LINKS_FILE="read-links.txt"
 
 # Diretório de destino
 DEST_DIR="data/reads/"

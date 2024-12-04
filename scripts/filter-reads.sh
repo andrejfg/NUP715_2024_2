@@ -6,8 +6,20 @@ if [ "$#" -ne 1 ]; then
     # Define o diretório das reads
     READS_DIR="data/reads/"
 else
-    # Define o arquivo passado como argumento
-    READS_DIR="$1"
+    # Define o arquivo ou diretório passado como argumento
+    INPUT_PATH="$1"
+    
+    if [ -f "$INPUT_PATH" ]; then
+        # Se for um arquivo, processa ele diretamente
+        FILES=("$INPUT_PATH")
+    elif [ -d "$INPUT_PATH" ]; then
+        # Se for um diretório, usa esse diretório para buscar os arquivos .fastq
+        FILES=("$INPUT_PATH"/*.fastq)
+    else
+        # Se o caminho não for válido (nem arquivo nem diretório)
+        echo "Erro: O caminho fornecido não é válido."
+        exit 1
+    fi
 fi
 
 # Cria o diretório de saída se não existir
@@ -37,16 +49,17 @@ if [ -f "$config_file" ]; then
     done < "$config_file"
 fi
 
-# Processa todos os arquivos .fastq em data/reads/
-for file in "$READS_DIR"*.fastq; do
+# Processa os arquivos fornecidos
+for file in "${FILES[@]}"; do
     if [ -f "$file" ]; then
         # Extrai o nome do arquivo sem a extensão .fastq
         base_name=$(basename "$file" .fastq)
         
         # Define os diretórios para os arquivos 'good' e 'bad'
-        out_good_path="$filtered_dir_name/$base_name/good"
+        output_dir="$filtered_dir_name/$base_name"
+        out_good_path="$output_dir/good"
         out_good="$out_good_path/${base_name}_filtered_Q${trim_qual_right}_${min_len}"
-        out_bad_path="$filtered_dir_name/$base_name/bad"
+        out_bad_path="$output_dir/bad"
         out_bad="$out_bad_path/${base_name}_bad"
         
         # Cria os diretórios de saída
@@ -63,6 +76,6 @@ for file in "$READS_DIR"*.fastq; do
             -min_len "$min_len" \
             -out_format "$out_format"
     else
-        echo "Nenhum arquivo .fastq encontrado no diretório $READS_DIR."
+        echo "Arquivo inválido ou inexistente: $file"
     fi
 done

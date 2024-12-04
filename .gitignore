@@ -1,3 +1,6 @@
 reads
 analysis
 filtered_reads
+mapped_reads
+sorted_reads
+*.bt2
