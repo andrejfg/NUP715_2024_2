@@ -1,9 +1,11 @@
 #!/bin/bash
 
-bash scripts/install-dependencies.sh
+
+
 bash scripts/get-reads.sh
 bash scripts/get-qualities.sh
-bash script/filter-reads.sh data/reads/SRR14457781.fastq
+bash scripts/filter-reads.sh data/reads/SRR14457781.fastq
+bash scripts/get-qualities.sh data/filtered_reads/SRR14457781/good/SRR14457781_filtered_Q30_30.fastq
 bash scripts/index-reference.sh
 bash scripts/align_reads.sh data/reads/SRR1570792.fastq data/filtered_reads/SRR14457781/good/SRR14457781_filtered_Q30_30.fastq 
 bash scripts/normalize-bams.sh
