@@ -32,11 +32,15 @@ Este repositório contém todos os scripts necessários para realizar um estudo 
 ### Como Executar
 
 1. Certifique-se de ter permissão de superusuário (root).  
-   O script `execute-all.sh` instala dependências, exigindo privilégios administrativos.
+   O script `prepare-env.sh` instala dependências, exigindo privilégios administrativos.
+   ```bash
+   sudo bash prepare-env.sh
+   ```
+
 
 2. Execute o pipeline:  
    ```bash
-   sudo bash execute-all.sh
+   bash execute-all.sh
    ```
 
 3. Para ajustar os parâmetros dos filtros, edite o arquivo `prinseq.config`. Caso esteja ausente, serão usados os parâmetros padrões descritos abaixo:
